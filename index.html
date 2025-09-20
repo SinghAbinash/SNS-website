@@ -50,11 +50,11 @@
     }
   .nav-link { color: #000 !important; }
   .navbar { z-index: 90; }
-  /* Strong overrides to ensure nav is visible */
+  /* Strong overrides to ensure nav is visible on large screens */
   .navbar { background-color: rgba(75,193,210,0.18) !important; }
   .navbar .container-fluid { display: flex; align-items: center; gap: 1rem; }
   .navbar-nav { display: flex !important; align-items: center; gap: 1rem; }
-  .navbar-collapse { display: flex !important; }
+  /* NOTE: do not force .navbar-collapse always visible; allow Bootstrap collapse on small screens */
   .nav-link { color: #000 !important; opacity: 1 !important; visibility: visible !important; }
     .nav-link {
       transition: color 0.3s, border-bottom 0.3s;
@@ -169,6 +169,27 @@
     }
     /* Facility images: fixed square size and cover */
     .facility-img { width:96px; height:96px; object-fit:cover; display:inline-block; }
+    /* Mobile UI tweaks */
+    /* Replace inline margin for About link with a class so it can be responsive */
+    .nav-about { margin-right: 40px; }
+    @media (max-width: 768px) {
+      /* Reduce right margin on small and mobile screens */
+      .nav-about { margin-right: 0px; }
+      /* Make hero and sections fit better on small screens */
+      .hero-wrap { padding-left: 12px; padding-right: 12px; }
+      
+    }
+
+    /* Disable hover-only styles on touch devices: use pointer media query */
+    @media (hover: none) and (pointer: coarse) {
+      /* Remove hover transforms and shadows on buttons and facility cards */
+      .cta-btn:hover, .join-btn:hover, .facility-card:hover, .social-icon:hover, .nav-link:hover { transform: none !important; box-shadow: none !important; color: inherit !important; border-bottom: none !important; }
+      /* Disable input/textarea hover outlines/shadows */
+      input[type="text"]:hover, input[type="email"]:hover, textarea:hover { box-shadow: none !important; }
+    }
+
+    /* Hide horizontal overflow to avoid side-scrolling on mobile */
+    html, body { overflow-x: hidden; }
   </style>
 </head>
 <body>
@@ -196,7 +217,7 @@
           <li class="nav-item"><a class="nav-link text-black" href="#careers">Careers</a></li>
           <li class="nav-item"><a class="nav-link text-black" href="#facilities">Facilities</a></li>
           <li class="nav-item"><a class="nav-link text-black" href="#contact">Contact</a></li>
-          <li class="nav-item"><a class="nav-link text-black" href="#about" style="margin-right: 40px;">About Us</a></li>
+          <li class="nav-item"><a class="nav-link text-black nav-about" href="#about">About Us</a></li>
         </ul>
       </div>
     </div>
@@ -236,7 +257,7 @@
         <div class="facility-card glass p-4 text-center border rounded-lg">
           <!-- Image source: images/SUNGLASSES-SOURCE-MYNTRA.jpg -->
           <img src="images/SUNGLASSES-SOURCE-MYNTRA.jpg" alt="images/SUNGLASSES-SOURCE-MYNTRA.jpg" class="facility-img mb-2">
-          <h3 class="fw-bold mb-1">Sunglasses</h3>
+          <h3 class="fw-bold mb-1">Sunglass</h3>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -410,6 +431,22 @@
       brandTrack.addEventListener('focusin', () => brandTrack.style.animationPlayState = 'paused');
       brandTrack.addEventListener('focusout', () => brandTrack.style.animationPlayState = 'running');
     }
+    // Close mobile navbar when a nav link is clicked (Bootstrap collapse behavior)
+    (function(){
+      const navLinks = document.querySelectorAll('.navbar-collapse .nav-link');
+      const navbarCollapseEl = document.querySelector('.navbar-collapse');
+      if(!navLinks.length || !navbarCollapseEl) return;
+      navLinks.forEach(link => link.addEventListener('click', () => {
+        // Use Bootstrap Collapse if available
+        try{
+          const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapseEl) || new bootstrap.Collapse(navbarCollapseEl);
+          bsCollapse.hide();
+        }catch(e){
+          // Fallback: toggle the collapse classes
+          navbarCollapseEl.classList.remove('show');
+        }
+      }));
+    })();
   </script>
   <script>
     // Client-side storage for contact form submissions (no backend)
