@@ -167,12 +167,27 @@
     @media (min-width: 768px) {
       .hero-wrap { min-height: 78vh; }
     }
+    /* Responsive hero title sizing */
+    .hero-title { font-size: 67px; line-height: 1.02; }
+    @media (max-width: 992px) { /* tablet and below */
+      .hero-title { font-size: 48px; }
+      .glass.p-5 { padding: 2.5rem; }
+      .brand-logo { height:42px; }
+      .facility-img { width:84px; height:84px; }
+    }
+    @media (max-width: 576px) { /* mobile */
+      .hero-title { font-size: 26px; }
+      .glass.p-5 { padding: 1.5rem; }
+      .brand-logo { height:36px; }
+      .facility-img { width:72px; height:72px; }
+      h1.hero-title { margin-right: 0; }
+    }
     /* Facility images: fixed square size and cover */
     .facility-img { width:96px; height:96px; object-fit:cover; display:inline-block; }
     /* Mobile UI tweaks */
     /* Replace inline margin for About link with a class so it can be responsive */
     .nav-about { margin-right: 40px; }
-    @media (max-width: 968px) {
+    @media (max-width: 768px) {
       /* Reduce right margin on small and mobile screens */
       .nav-about { margin-right: 0px; }
       /* Make hero and sections fit better on small screens */
@@ -230,7 +245,7 @@
       <div class="row justify-content-center">
         <div class="col-12 col-md-8">
           <div class="glass p-5 rounded-4 text-center">
-            <h1 style="font-size:67px; text-shadow: #2222; margin-right: 3px;"><span class="search-icon">⌕</span>Specs <span style="font-style: italic;">N</span> Shades</h1>
+            <h1 class="hero-title" style="text-shadow: #2222; margin-right: 3px;"><span class="search-icon">⌕</span>Specs <span style="font-style: italic;">N</span> Shades</h1>
             <p class="lead mb-4">See the World Better with Specs N Shades</p>
             <a href="#facilities" class="btn cta-btn brand-bg px-4 py-2 rounded-3 fs-6 fw-semibold" style="margin-top: 15px;">Explore Our Collection</a>
           </div>
@@ -484,4 +499,3 @@
   </script>
 </body>
 </html>
-
